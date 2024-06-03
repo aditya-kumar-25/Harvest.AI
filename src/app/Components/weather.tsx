@@ -1,4 +1,4 @@
-import { locationState } from "@/state/location";
+import { locationState ,StateName} from "@/state/location";
 import { useEffect, useState } from "react";
 import { useRecoilState } from "recoil";
 import { getStateFromLatLng } from "./Content";
@@ -8,7 +8,7 @@ import { InfinitySpin, MutatingDots, Oval } from "react-loader-spinner";
 export function Weather(){
 
   const [location, setLocation] = useRecoilState(locationState);
-  const [stateName, setStateName] = useState<string | null>(null);
+  const [stateName, setStateName] = useRecoilState(StateName);
   const [query, setQuery] = useState<string>('');
   const [isLoading, setIsLoading] = useState<boolean>(false);
 
@@ -74,13 +74,13 @@ export function Weather(){
 </div>
 <div className="h-[28.8vh] border-l  -translate-y-[0.17rem] glass rounded-tr-2xl rounded-br-2xl p-2.5 px-3 flex flex-col justify-center">
   {query === undefined || query.chatMessage === undefined ? (
-    <p className="text-white"><div className="text-white w-full h-full  glass rounded-2xl justify-center items-center flex flex-col">  <InfinitySpin
+    <div className="text-white"><div className="text-white w-full h-full  glass rounded-2xl justify-center items-center flex flex-col">  <InfinitySpin
     visible={true}
     width="200"
     color="#aaffdd"
     ariaLabel="infinity-spin-loading"
     />
-    </div></p>
+    </div></div>
   ) : (
     <p className="text-sm  font-sans text-justify text-zinc-200 font-light ">
       {JSON.stringify(query.chatMessage.answer)}

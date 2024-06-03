@@ -338,3 +338,15 @@ a {
   linear-gradient(132deg, #bcbcbc3d 0%, rgba(91, 91, 91, 0.221) 20%, rgba(117, 117, 117, 0.148) 70%, #93939348 100%);
   border: solid rgba(124, 124, 124, 0.508) 1px;
 }
+
+.bg-image-soil{
+  background:
+  linear-gradient(132deg, #565656ba 0%, rgb(45, 45, 45) 20%, rgba(50, 50, 50, 0.966) 70%, #555555ee 100%);  border-radius: 10px;
+  overflow: hidden;
+  ;
+  /* filter: blur(5px); */
+}
+
+.image{
+  filter: brightness(0.4);
+}

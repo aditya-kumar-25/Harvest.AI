@@ -8,6 +8,7 @@ import { useMap, useMapEvents } from 'react-leaflet';
 import { locationState } from '../../state/location';
 import { useRecoilState } from 'recoil';
 import { Weather } from './weather';
+import SoilQualityCheck from './soil';
 
 // Dynamically import the Map components with ssr disabled
 const MapContainer = dynamic(() => import('react-leaflet').then(mod => mod.MapContainer), { ssr: false });
@@ -84,7 +85,7 @@ const Content: React.FC<ContentProps> = ({ chatOpened }) => {
 
             </div>
             <div className="col-span-1 border p-2 border-slate-500 glass h-[29vh] rounded-2xl"> Heat Stress level </div>
-            <div className="col-span-1 border p-2 border-slate-500 glass h-[29vh] rounded-2xl"> Water Quality Check </div>
+            <div className="col-span-1 border p-2 border-slate-500 glass h-[29vh] rounded-2xl"> <SoilQualityCheck/> </div>
             <div className="col-span-2 border p-2 border-slate-500 glass h-[29vh] rounded-2xl"> Crop suggestion</div>
         </div>
     );
