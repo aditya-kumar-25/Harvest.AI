@@ -12,7 +12,7 @@ const Marker = dynamic(() => import('react-leaflet').then(mod => mod.Marker), { 
 const Popup = dynamic(() => import('react-leaflet').then(mod => mod.Popup), { ssr: false });
 
 function LocationMarker() {
-    const [position, setPosition] = useState<LatLng | null>(null); 
+    const [position, setPosition] = useState<LatLng | null>(null);
     const map = useMap();
 
     useMapEvents({
@@ -32,12 +32,8 @@ function LocationMarker() {
     );
 }
 
-type ContentProps = {
-  chatOpened: Boolean;
-};
-
-
- const Content: React.FC<ContentProps> = ({ chatOpened }) => {    const [mapKey, setMapKey] = useState(Date.now());
+export default function Chat() {
+    const [mapKey, setMapKey] = useState(Date.now());
 
     useEffect(() => {
         // Update the mapKey state variable whenever you want to create a new map instance
@@ -45,7 +41,7 @@ type ContentProps = {
     }, [/* Add your dependencies here */]);
 
     return (
-        <div className={`grid grid-cols-2 gap-4 p-4 ${chatOpened ? 'w-[75vw]' : 'w-[98vw]'} transition-width duration-500 `}>
+        <div className="grid grid-cols-2 gap-4 p-4">
             <div className="col-span-1 border border-white h-[29vh] rounded-2xl">
                 <MapContainer style={{ height: "100%", width: "100%", overflow: "hidden", borderRadius: "15px" }}
                                     key={mapKey}
@@ -67,5 +63,3 @@ type ContentProps = {
         </div>
     );
 }
-
-export default Content;

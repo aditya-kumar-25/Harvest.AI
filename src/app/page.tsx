@@ -19,7 +19,7 @@ export default function Home() {
       </button>}
       <div className="flex justify-between">
         <Sidenav chatOpened={chatOpened} setChatOpened={setChatOpened} />
-        <Content chatOpened={chatOpened} />
+        <Content  chatOpened={chatOpened} />
       </div>
     </div>
   );
