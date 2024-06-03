@@ -12,7 +12,7 @@ const Marker = dynamic(() => import('react-leaflet').then(mod => mod.Marker), { 
 const Popup = dynamic(() => import('react-leaflet').then(mod => mod.Popup), { ssr: false });
 
 function LocationMarker() {
-    const [position, setPosition] = useState<LatLng | null>(null);
+    const [position, setPosition] = useState<LatLng | null>(null); 
     const map = useMap();
 
     useMapEvents({
