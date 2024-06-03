@@ -7,6 +7,7 @@ import { LatLng } from 'leaflet';
 import { useMap, useMapEvents } from 'react-leaflet';
 import { locationState } from '../../state/location';
 import { useRecoilState } from 'recoil';
+import SoilQualityCheck from './SoilQualityCheck';
 
 // Dynamically import the Map components with ssr disabled
 const MapContainer = dynamic(() => import('react-leaflet').then(mod => mod.MapContainer), { ssr: false });
@@ -64,7 +65,6 @@ const Content: React.FC<ContentProps> = ({ chatOpened }) => {
     const [stateName, setStateName] = useState<string | null>(null);
 
     useEffect(() => {
-        // Update the mapKey state variable whenever chatOpened changes to recreate the map instance
         setMapKey(Date.now());
     }, [chatOpened]);
 
@@ -129,7 +129,7 @@ const Content: React.FC<ContentProps> = ({ chatOpened }) => {
 
             </div>
             <div className="col-span-1 border p-2 border-white h-[29vh] rounded-2xl"> Heat Stress level </div>
-            <div className="col-span-1 border p-2 border-white h-[29vh] rounded-2xl"> Water Quality Check </div>
+            <div className="col-span-1 border p-2 border-white h-[29vh] rounded-2xl"> <SoilQualityCheck stateName={stateName}/> </div>
             <div className="col-span-2 border p-2 border-white h-[29vh] rounded-2xl"> Crop suggestion</div>
         </div>
     );

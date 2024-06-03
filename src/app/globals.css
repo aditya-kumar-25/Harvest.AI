@@ -26,3 +26,13 @@ html,body{
 ::-webkit-scrollbar-thumb:hover {
   background: #555;
 }
+
+
+.bg-image-soil{
+  background-image: url('/download.jpg');
+  /* filter: blur(5px); */
+}
+
+.image{
+  filter: brightness(0.5);
+}

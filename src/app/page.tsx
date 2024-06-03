@@ -7,11 +7,11 @@ import { BsMenuButtonFill } from "react-icons/bs";
 import { RecoilRoot } from "recoil";
 
 export default function Home() {
-  const [chatOpened, setChatOpened] = useState<Boolean>(false);
+  const [chatOpened, setChatOpened] = useState<boolean>(false);
 
   return (
     <RecoilRoot>
-    <div className="">
+    <div className="font-sans">
       {!chatOpened && <button
         className="z-[1] fixed top-2 left-2"
         onClick={() => setChatOpened(!chatOpened)} 
