@@ -96,9 +96,9 @@ fetch('https://gateway-dev.on-demand.io/chat/v1/sessions', {
 
       <img src="/images.jpg" className="w-full h-full blur-[2px] image rounded-xl  " />
 
-        <div className="absolute z-10 top-[35%] left-5 flex items-center gap-4">
+        <div className="absolute z-10 top-[30%]  left-10 flex items-center gap-4">
           <ImLocation size={40} color="white"/>
-          {stateName && <p className="font-semibold text-xl font-sans">{(stateName ? stateName : 'Loading...')}<span className="text-sm font-[400] ml-4">{'(read more about its soil)'}</span></p>}
+          {stateName && <p className="font-semibold text-xl font-sans">{(stateName ? stateName : 'Loading...')}<br/><span className="text-sm font-[400]">{'(read more about its soil)'}</span></p>}
         </div>
 
       <div

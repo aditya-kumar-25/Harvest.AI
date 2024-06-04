@@ -155,7 +155,7 @@ const Sidenav: React.FC<SidenavProps> = ({ chatOpened, setChatOpened }) => {
                         debounce && index === 0 && "bg-gray-700"
                       }`}
                     >
-                  <div dangerouslySetInnerHTML={{ __html: data.answer }} />
+                  <div className="text-sm" dangerouslySetInnerHTML={{ __html: data.answer }} />
                     </div>
                   </div>
                 );
