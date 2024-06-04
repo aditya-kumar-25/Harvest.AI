@@ -73,7 +73,7 @@ return <div className=" flex flex-row md:gap-7 items-center">
 
 {query && query.chatMessage ? getWeatherCondition(query.chatMessage.answer) : ''}
 </div>
-<div className="h-[28.8vh] border-l  -translate-y-[0.17rem] glass rounded-tr-2xl rounded-br-2xl p-2.5 px-3 flex flex-col justify-center w-3/5">
+<div className="h-[28.8vh] border-l  -translate-y-[0.17rem] glass rounded-tr-2xl rounded-br-2xl p-2.5 px-3 flex flex-col justify-center">
   {query === undefined || query.chatMessage === undefined ? (
     <div className="text-white"><div className="text-white w-full h-full  glass rounded-2xl justify-center items-center flex flex-col">  <InfinitySpin
     visible={true}
@@ -134,14 +134,5 @@ function getWeatherCondition(answer: string | undefined) {
   </div>
 </div>
     );
-  }
-  else{
-    <div className="icon sun-shower">
-  <div className="cloud"></div>
-  <div className="sun">
-    <div className="rays"></div>
-  </div>
-  <div className="rain"></div>
-</div>
   }
 }

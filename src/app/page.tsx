@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Content from "./Components/Content";
 import Sidenav from "./Components/Sidenav";
 import { BsMenuButtonFill } from "react-icons/bs";
@@ -9,6 +9,7 @@ import { MdMenuOpen } from "react-icons/md";
 import { RiMenuUnfold3Line } from "react-icons/ri";
 
 export default function Home() {
+
   const [chatOpened, setChatOpened] = useState<Boolean>(true);
 
   return (
@@ -27,6 +28,5 @@ export default function Home() {
       </div>
     </div>
     </RecoilRoot>
-
   );
 }

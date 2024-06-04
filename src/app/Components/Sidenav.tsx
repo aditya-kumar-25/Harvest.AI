@@ -7,6 +7,7 @@ import { FaArrowUp } from "react-icons/fa";
 import ReactTextareaAutosize from "react-textarea-autosize";
 import { getChatResponse } from "../api/fetchData";
 import { InfinitySpin } from "react-loader-spinner";
+import markdownToHtml from "../api/textFormatter";
 import { MdMenuOpen } from "react-icons/md";
 
 type SidenavProps = {
@@ -41,6 +42,12 @@ const Sidenav: React.FC<SidenavProps> = ({ chatOpened, setChatOpened }) => {
   const [debounce, setDebounce] = useState<Boolean>(false);
   const [search, setSearch] = useState<string>("");
   const [data, setData] = useState<any>([]);
+  const [content , setContent] = useState<string>('');
+
+  const convertMarkdown = async (markdown:any) => {
+    const htmlContent = await markdownToHtml(markdown);
+    return htmlContent;
+  };
 
   const ref = useRef<HTMLTextAreaElement | null>(null);
 
@@ -55,11 +62,12 @@ const Sidenav: React.FC<SidenavProps> = ({ chatOpened, setChatOpened }) => {
         return updatedArray;
       });
       setDebounce(true);
-      getChatResponse(search).then((res: any) => { 
+      getChatResponse(search).then(async (res: any) => { 
         console.log(res , '$$');
+        const html = await convertMarkdown(res?.chatMessage?.answer);
         setData((prev: any) => {
             const updatedArray = [...prev];
-            updatedArray[updatedArray.length-1].answer = res?.chatMessage?.answer;
+            updatedArray[updatedArray.length-1].answer = html;
             return updatedArray;
         });
         setDebounce(false);
@@ -147,7 +155,7 @@ const Sidenav: React.FC<SidenavProps> = ({ chatOpened, setChatOpened }) => {
                         debounce && index === 0 && "bg-gray-700"
                       }`}
                     >
-                      <p className="text-gray-300 text-sm">{data.answer}</p>
+                  <div dangerouslySetInnerHTML={{ __html: data.answer }} />
                     </div>
                   </div>
                 );
