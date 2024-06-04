@@ -5,6 +5,7 @@ import { BiChat } from "react-icons/bi";
 import { BsMenuButtonFill } from "react-icons/bs";
 import { FaArrowUp } from "react-icons/fa";
 import ReactTextareaAutosize from "react-textarea-autosize";
+import { getChatResponse } from "../api/fetchData";
 
 type SidenavProps = {
   chatOpened: Boolean;
@@ -36,11 +37,34 @@ const sampleData = [
 
 const Sidenav: React.FC<SidenavProps> = ({ chatOpened, setChatOpened }) => {
   const [debounce, setDebounce] = useState<Boolean>(false);
+  const [search, setSearch] = useState<string>("");
+  const [data, setData] = useState<any>([]);
 
   const ref = useRef<HTMLTextAreaElement | null>(null);
 
+  const submitHandler = async (e) => {
+    try {
+      e.preventDefault();
+      setDebounce(true);
+      const res = await getChatResponse(search);
 
-  const [search, setSearch] = useState<string>("");
+      setData((data: any) => {
+        return [
+          ...data,
+          {
+            question: search,
+            answer: res,
+          },
+        ];
+      });
+
+      setSearch("");
+    } catch (err) {
+      console.log(err);
+    } finally {
+      setDebounce(false);
+    }
+  };
 
   return (
     <div
@@ -66,9 +90,9 @@ const Sidenav: React.FC<SidenavProps> = ({ chatOpened, setChatOpened }) => {
 
       <div className="flex flex-col gap-3 mt-10">
         {chatOpened && (
-          <div className=" max-h-[80vh] overflow-y-auto">
+          <div className=" h-[80vh] overflow-y-auto text-white">
             <div className="">
-              {sampleData.map((data: any, index: number) => {
+              {data.map((data: any, index: number) => {
                 return (
                   <div>
                     <div className="flex justify-between items-center p-4 border-b border-gray-700 cursor-pointer">
@@ -106,27 +130,31 @@ const Sidenav: React.FC<SidenavProps> = ({ chatOpened, setChatOpened }) => {
           </div>
         )}
 
-        {chatOpened && (
-          <div className="flex justify-between items-end px-1">
-            <ReactTextareaAutosize
-            ref={ref}
-              className="border mx-2 rounded-lg px-3  py-2  bg-transparent w-[97%] resize-none"
-              placeholder="Type your query here..."
-              value={search}
-              onChange={(e) => setSearch(e.target.value)}
-              maxRows={1}
-              minRows={1}
-              rows={1}
-            />
-            <div className="my-auto rounded-full bg-white text-black p-1">
-              <FaArrowUp />
+        <form onSubmit={submitHandler}>
+          {chatOpened && (
+            <div className="flex justify-between items-end px-1">
+              <ReactTextareaAutosize
+                ref={ref}
+                className="border mx-2 rounded-lg px-3  py-2  bg-transparent w-[97%] resize-none text-white"
+                placeholder="Type your query here..."
+                value={search}
+                onChange={(e) => setSearch(e.target.value)}
+                maxRows={1}
+                minRows={1}
+                rows={1}
+              />
+              <button
+                type="submit"
+                className="my-auto rounded-full bg-white text-black p-1"
+              >
+                <FaArrowUp />
+              </button>
             </div>
-          </div>
-        )}
+          )}
+        </form>
       </div>
     </div>
   );
 };
 
 export default Sidenav;
-

@@ -99,7 +99,7 @@ fetch('https://gateway-dev.on-demand.io/chat/v1/sessions', {
     </div></div>
   ) : (
     <p className="text-sm  font-sans text-justify text-zinc-200 font-light p-2  ">
-      {JSON.stringify(query.chatMessage.answer.replace(`The provided context does not contain specific information about the soil quality of ${stateName}. However, based on general knowledge ,`, ""))}
+      {query.chatMessage.answer}
     </p>
   )}</p>
       </div>
