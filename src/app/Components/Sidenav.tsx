@@ -93,7 +93,7 @@ const Sidenav: React.FC<SidenavProps> = ({ chatOpened, setChatOpened }) => {
 
   return (
     <div
-      className={`relative h-[100vh]  bg-zinc-800 ${
+      className={`sticky top-0 h-[100vh]  bg-zinc-800 ${
         chatOpened ? "w-[25vw]" : "w-[0vw]"
       } transition-width duration-500 overflow-hidden`}
     >

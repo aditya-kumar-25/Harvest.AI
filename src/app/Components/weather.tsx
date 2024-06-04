@@ -41,7 +41,8 @@ export function Weather(){
                           'apikey': 'zVzRjg2Lg2S2QI0dwIWjjOGc1RrofWjt',
                           'Content-Type': 'application/json'
                       },
-                      body: JSON.stringify({ "endpointId": "predefined-openai-gpt4o", "query": `What is the climatic condition at ${state} with ${location.lat}N and ${location.lng}E in 25 words ?`, "pluginIds": ["plugin-1713962163", "plugin-1717421574", "plugin-1717419365"], "responseMode": "sync" })
+                      body: JSON.stringify({ "endpointId": "predefined-openai-gpt4o", "query": `What is the climatic condition at ${state} with ${location.lat}N and ${location.lng}E in 25 words ?`, "pluginIds": ["plugin-1715797457", "plugin-1713962163"],
+                      "responseMode": "sync" })
                   });
 
                   const queryData = await queryResponse.json();

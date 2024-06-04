@@ -7,8 +7,12 @@ export function Heat(){
 const [stateName, setStateName] = useRecoilState(StateName);
 const [location, setLocation] = useRecoilState(locationState);
 const [query, setQuery] = useState<string>('');
+const [isLoading, setIsLoading] = useState<boolean>(false);
+
     useEffect(() => {
         if (!stateName) return; // If stateName is null, exit the useEffect hook
+        setIsLoading(true); // Set isLoading to true when stateName changes
+
         // Create Chat Session
 // Create Chat Session API
 fetch('https://gateway-dev.on-demand.io/chat/v1/sessions', {
@@ -39,7 +43,7 @@ fetch('https://gateway-dev.on-demand.io/chat/v1/sessions', {
         console.log(data);
         setQuery(data);
     })
-    .catch(error => console.error('Error:', error));
+    .catch(error =>{ console.error('Error:', error);});
 })
 .catch(error => console.error('Error:', error));
 
@@ -56,10 +60,12 @@ fetch('https://gateway-dev.on-demand.io/chat/v1/sessions', {
     ariaLabel="infinity-spin-loading"
     />
     </div></div>
-  ) : (
-    <p className="text-sm  font-sans text-justify text-zinc-200 font-light px-2 overflow-hidden  ">
+  ) : (<div>
+    <h2 className=" pl-2 pb-2 border-b border-zinc-500 text-white">Water Quality</h2>
+    <p className="text-sm  font-sans text-justify text-zinc-200 font-light px-2 overflow-hidden pt-2  ">
       {JSON.stringify(query.chatMessage.answer)}
     </p>
+    </div>
   )}     
  </div>
     )

@@ -100,9 +100,9 @@ export function Crop() {
             <div className="w-2/5 grid grid-cols-2 h-[15vh] p-3 gap-4">
                 
             <img className=" col-span-1 aspect-square h-[20vh] w-[20vh] rounded-xl border border-slate-500"  src={`https://source.unsplash.com/featured/?${topFour[0]}`} alt="i1" />
-            <img className=" col-span-1 h-[20vh] w-[20vh] rounded-xl border border-slate-500" src={`https://source.unsplash.com/featured/?${topFour[1]}`} alt="i1" />
-            <img className=" col-span-1 h-[20vh] w-[20vh] border rounded-xl border-slate-500" src={`https://source.unsplash.com/featured/?${topFour[2]}`} alt="i1" />
-            <img className=" col-span-1 h-[20vh] w-[20vh] border rounded-xl border-slate-500" src={`https://source.unsplash.com/featured/?${topFour[3]}`} alt="i1" />
+            <img className=" col-span-1 h-[20vh] w-[20vh] rounded-xl border border-slate-500" src={`https://source.unsplash.com/featured/?${topFour[1]}`} alt="i2" />
+            <img className=" col-span-1 h-[20vh] w-[20vh] border rounded-xl border-slate-500" src={`https://source.unsplash.com/featured/?${topFour[2]}`} alt="i3" />
+            <img className=" col-span-1 h-[20vh] w-[20vh] border rounded-xl border-slate-500" src={`https://source.unsplash.com/featured/?${topFour[3]}`} alt="i4" />
             </div>
         <div
         id="crop-list"

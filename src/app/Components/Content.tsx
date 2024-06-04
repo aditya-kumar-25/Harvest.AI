@@ -70,7 +70,7 @@ const Content: React.FC<ContentProps> = ({ chatOpened }) => {
             <div className="col-span-1 border border-slate-600 h-[29vh] rounded-2xl ">
                 <MapContainer style={{ height: "100%", width: "100%", overflow: "hidden", borderRadius: "15px" }}
                     key={mapKey}
-                    center={{ lat: 24.6637, lng:93.9063 }}
+                    center={{ lat: 24.4539, lng:54.3773 }}
                     zoom={13}
                     scrollWheelZoom={false}>
                     <TileLayer
@@ -88,7 +88,7 @@ const Content: React.FC<ContentProps> = ({ chatOpened }) => {
             </div>
             <div className="col-span-1 border p-2 border-slate-500 glass h-[29vh] rounded-2xl"> <Heat/> </div>
             <div className="col-span-1 border p-2 border-slate-500 glass h-[29vh] rounded-2xl"> <SoilQualityCheck/> </div>
-            <div className="col-span-2 border p-2 border-slate-500 glass h-[29vh] rounded-2xl"> <Crop/></div>
+            <div className="col-span-2 border p-2 border-slate-500 glass  rounded-2xl"> <Crop/></div>
         </div>
     );
 }

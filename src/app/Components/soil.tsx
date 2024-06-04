@@ -128,10 +128,12 @@ fetch('https://gateway-dev.on-demand.io/chat/v1/sessions', {
       />
     </div>
   </div>
-) : (
-  <p className="text-sm font-sans text-justify text-zinc-200 font-light p-2">
+) : (<>
+
+  <div className="text-sm font-sans text-justify text-zinc-200 font-light div-2">
     {cleanedAnswer}
-  </p>
+  </div>
+  </>
 )}</div>
       </div>
     </div>
