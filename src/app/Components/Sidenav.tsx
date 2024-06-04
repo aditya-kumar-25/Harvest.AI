@@ -6,6 +6,7 @@ import { BsMenuButtonFill } from "react-icons/bs";
 import { FaArrowUp } from "react-icons/fa";
 import ReactTextareaAutosize from "react-textarea-autosize";
 import { getChatResponse } from "../api/fetchData";
+import { InfinitySpin } from "react-loader-spinner";
 
 type SidenavProps = {
   chatOpened: Boolean;
@@ -42,27 +43,42 @@ const Sidenav: React.FC<SidenavProps> = ({ chatOpened, setChatOpened }) => {
 
   const ref = useRef<HTMLTextAreaElement | null>(null);
 
-  const submitHandler = async (e) => {
+  const submitHandler = async (e : any) => {
     try {
       e.preventDefault();
-      setDebounce(true);
-      const res = await getChatResponse(search);
-
-      setData((data: any) => {
-        return [
-          ...data,
-          {
-            question: search,
-            answer: res,
-          },
-        ];
+      setData((prev: any) => {
+        const updatedArray = [...prev , {
+          question:search,
+          answer:'',
+        }]
+        return updatedArray;
       });
-
+      setDebounce(true);
+      getChatResponse(search).then((res: any) => { 
+        console.log(res , '$$');
+        setData((prev: any) => {
+            const updatedArray = [...prev];
+            updatedArray[updatedArray.length-1].answer = res?.chatMessage?.answer;
+            return updatedArray;
+        });
+        setDebounce(false);
+      }).catch((error) => { 
+        setDebounce(false);
+        console.log(error);
+        setData((prev: any) => {
+          const updatedArray = [...prev];
+          updatedArray[updatedArray.length - 1].answer = (error.message || 'Error while fetching response :(');
+          return updatedArray;
+        });
+      });
       setSearch("");
-    } catch (err) {
+    } catch (err:any) {
       console.log(err);
-    } finally {
-      setDebounce(false);
+      setData((prev: any) => {
+        const updatedArray = [...prev];
+        updatedArray[updatedArray.length - 1].answer = (err.message || 'Error while fetching response :(');
+        return updatedArray;
+      });
     }
   };
 
@@ -80,6 +96,7 @@ const Sidenav: React.FC<SidenavProps> = ({ chatOpened, setChatOpened }) => {
         <BsMenuButtonFill size={20} className="text-gray-300" />
       </button>
       <BiChat
+        onClick={() => setData([])}
         size={25}
         className={`text-gray-300 absolute top-2 right-2 cursor-pointer ${
           !chatOpened && "opacity-0"
@@ -94,7 +111,7 @@ const Sidenav: React.FC<SidenavProps> = ({ chatOpened, setChatOpened }) => {
             <div className="">
               {data.map((data: any, index: number) => {
                 return (
-                  <div>
+                  <div key={index}>
                     <div className="flex justify-between items-center p-4 border-b border-gray-700 cursor-pointer">
                       <div>
                         <p className="text-white font-semibold">
@@ -126,11 +143,19 @@ const Sidenav: React.FC<SidenavProps> = ({ chatOpened, setChatOpened }) => {
                   </div>
                 );
               })}
+              {
+                debounce &&   <InfinitySpin
+                visible={true}
+                width="200"
+                color="#aaffdd"
+                ariaLabel="infinity-spin-loading"
+              />
+              }
             </div>
           </div>
         )}
 
-        <form onSubmit={submitHandler}>
+        <form onSubmit={(e) => {if(!debounce)submitHandler(e)}}>
           {chatOpened && (
             <div className="flex justify-between items-end px-1">
               <ReactTextareaAutosize
