@@ -7,7 +7,11 @@ import { BsMenuButtonFill } from "react-icons/bs";
 import { RecoilRoot } from "recoil";
 
 export default function Home() {
+<<<<<<< HEAD
   const [chatOpened, setChatOpened] = useState<boolean>(false);
+=======
+  const [chatOpened, setChatOpened] = useState<Boolean>(true);
+>>>>>>> c0c4db96b85f0c15f51e7ab0d103e6fb8216e47a
 
   return (
     <RecoilRoot>

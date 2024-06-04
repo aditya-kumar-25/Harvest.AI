@@ -4,3 +4,8 @@ export const locationState = atom({
     key: "locationState",
     default: { lat: 23.4241, lng: 23.4241 },
     });
+
+export const StateName = atom({
+    key: "stateName",
+    default: null,
+    });
