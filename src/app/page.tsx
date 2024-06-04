@@ -5,6 +5,8 @@ import Content from "./Components/Content";
 import Sidenav from "./Components/Sidenav";
 import { BsMenuButtonFill } from "react-icons/bs";
 import { RecoilRoot } from "recoil";
+import { MdMenuOpen } from "react-icons/md";
+import { RiMenuUnfold3Line } from "react-icons/ri";
 
 export default function Home() {
   const [chatOpened, setChatOpened] = useState<Boolean>(true);
@@ -17,7 +19,7 @@ export default function Home() {
         onClick={() => setChatOpened(!chatOpened)} 
         title={chatOpened ? "Close chat" : "Open chat"}
       >
-        <BsMenuButtonFill size={20} className="text-gray-300" />
+        <RiMenuUnfold3Line size={20} className="text-gray-300" />
       </button>}
       <div className="flex justify-between">
         <Sidenav chatOpened={chatOpened} setChatOpened={setChatOpened} />

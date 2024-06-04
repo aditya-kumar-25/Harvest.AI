@@ -2,11 +2,12 @@
 
 import React, { useEffect, useRef, useState } from "react";
 import { BiChat } from "react-icons/bi";
-import { BsMenuButtonFill } from "react-icons/bs";
+import { BsChatRightDotsFill, BsMenuButtonFill } from "react-icons/bs";
 import { FaArrowUp } from "react-icons/fa";
 import ReactTextareaAutosize from "react-textarea-autosize";
 import { getChatResponse } from "../api/fetchData";
 import { InfinitySpin } from "react-loader-spinner";
+import { MdMenuOpen } from "react-icons/md";
 
 type SidenavProps = {
   chatOpened: Boolean;
@@ -88,14 +89,22 @@ const Sidenav: React.FC<SidenavProps> = ({ chatOpened, setChatOpened }) => {
         chatOpened ? "w-[25vw]" : "w-[0vw]"
       } transition-width duration-500 overflow-hidden`}
     >
+      <div className="flex flex-row">
       <button
-        className="absolute top-2 left-2"
+        className="absolute top-2 left-2 flex flex-row items-center gap-3"
         onClick={() => setChatOpened(!chatOpened)}
         title={chatOpened ? "Close chat" : "Open chat"}
       >
-        <BsMenuButtonFill size={20} className="text-gray-300" />
+        <MdMenuOpen size={20} className="text-gray-300" />
+        <div className="text-base text-white font-sans flex flex-row gap-2">
+        <img className="w-5 h-5" src="/image.png"/>     
+        <p className="text-base text-zinc-300 font-semibold">   Harvest.AI
+</p>
+      </div>
       </button>
-      <BiChat
+     
+      </div>
+      <BsChatRightDotsFill
         onClick={() => setData([])}
         size={25}
         className={`text-gray-300 absolute top-2 right-2 cursor-pointer ${
@@ -105,7 +114,7 @@ const Sidenav: React.FC<SidenavProps> = ({ chatOpened, setChatOpened }) => {
       />
       {/* <div className="border-2 border-white"></div> */}
 
-      <div className="flex flex-col gap-3 mt-10">
+      <div className="flex flex-col gap-3 mt-10  border-t border-slate-950">
         {chatOpened && (
           <div className=" h-[80vh] overflow-y-auto text-white">
             <div className="">
@@ -138,18 +147,19 @@ const Sidenav: React.FC<SidenavProps> = ({ chatOpened, setChatOpened }) => {
                         debounce && index === 0 && "bg-gray-700"
                       }`}
                     >
-                      <p className="text-gray-300">{data.answer}</p>
+                      <p className="text-gray-300 text-sm">{data.answer}</p>
                     </div>
                   </div>
                 );
               })}
               {
-                debounce &&   <InfinitySpin
+                debounce && <div className=" flex flex-col justify-center items-center -ml-7 bg-slate-700">  <InfinitySpin
                 visible={true}
-                width="200"
+                width="100"
                 color="#aaffdd"
                 ariaLabel="infinity-spin-loading"
               />
+              </div>
               }
             </div>
           </div>
@@ -157,11 +167,11 @@ const Sidenav: React.FC<SidenavProps> = ({ chatOpened, setChatOpened }) => {
 
         <form onSubmit={(e) => {if(!debounce)submitHandler(e)}}>
           {chatOpened && (
-            <div className="flex justify-between items-end px-1">
+            <div className="flex justify-between items-end px-1 w-[95%]">
               <ReactTextareaAutosize
                 ref={ref}
-                className="border mx-2 rounded-lg px-3  py-2  bg-transparent w-[97%] resize-none text-white"
-                placeholder="Type your query here..."
+                className="border mx-2 rounded-lg px-3  py-2  bg-transparent w-[97%] resize-none text-white text-sm"
+                placeholder="Ask your question here ..."
                 value={search}
                 onChange={(e) => setSearch(e.target.value)}
                 maxRows={1}
@@ -170,7 +180,7 @@ const Sidenav: React.FC<SidenavProps> = ({ chatOpened, setChatOpened }) => {
               />
               <button
                 type="submit"
-                className="my-auto rounded-full bg-white text-black p-1"
+                className="my-auto rounded-lg bg-white text-black p-2.5 ml-2"
               >
                 <FaArrowUp />
               </button>

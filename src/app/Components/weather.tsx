@@ -66,7 +66,8 @@ export function Weather(){
     </div>;
   }
 
-    return <div className=" flex flex-row md:gap-7 items-center">
+return <div className=" flex flex-row md:gap-7 items-center">
+
 <div className="w-2/5 flex flex-col justify-center ">
 
 
@@ -94,7 +95,7 @@ function getWeatherCondition(answer: string | undefined) {
     return null;
   }
     const sunnyKeywords = ['sunny', 'sunshine', 'sunlight', 'sun', 'sunny day', 'humidity', 'hot', 'heat', 'warm', 'warmth', 'sweat', 'sweaty', 'sweating', 'desert'];
-  const showerKeywords = ['shower', 'showering', 'showered', 'showering day', 'showered day','rain','raining'];
+  const showerKeywords = ['shower', 'showering', 'showered', 'showering day', 'showered day','rain','raining','wet'];
   const snowyKeywords = ['snow', 'snowy', 'snowing', 'snowfall', 'snowflakes', 'snowstorm', 'blizzard', 'sleet', 'flurries','cold','ice','icy','frost','frosty'];
   const stormyKeywords = ['storm', 'stormy', 'thunderstorm', 'thunder', 'lightning', 'thundering', 'storming', 'hurricane', 'tornado', 'cyclone'];
 

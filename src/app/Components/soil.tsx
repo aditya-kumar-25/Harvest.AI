@@ -10,11 +10,14 @@ import { useRecoilState } from "recoil";
 
 function SoilQualityCheck (){
   const [location, setLocation] = useRecoilState(locationState);
-    const [stateName, setStateName] = useRecoilState(StateName)
+    const [stateName, setStateName] = useRecoilState(StateName);
   const [clicked, setClicked] = useState<boolean>(false);
     const [query, setQuery] = useState<string>('');
-
+const [isLoading, setIsLoading] = useState<boolean>(false);
   useEffect(() => {
+    if (location.lat !== 0 && location.lng !== 0) {
+        setIsLoading(true);
+
     if (!stateName) return; 
 // Create Chat Session
 // Step 1: Create Chat Session
@@ -50,6 +53,7 @@ fetch('https://gateway-dev.on-demand.io/chat/v1/sessions', {
     .then(data => {
         console.log(data); // Handle the response data here
         setQuery(data);
+        setIsLoading(false);
     })
     .catch(error => {
         console.error('Error:', error);
@@ -58,10 +62,7 @@ fetch('https://gateway-dev.on-demand.io/chat/v1/sessions', {
 .catch(error => {
     console.error('Error:', error);
 });
-
-
-
-  }, [stateName]);
+  }}, [stateName]);
 
 
   const answer = query.chatMessage?.answer;
@@ -97,7 +98,7 @@ fetch('https://gateway-dev.on-demand.io/chat/v1/sessions', {
 
         <div className="absolute z-10 top-[35%] left-5 flex items-center gap-4">
           <ImLocation size={40} color="white"/>
-          {stateName && <p className="font-semibold text-xl font-sans">{(stateName ? stateName : 'Loading...')}<span className="text-sm font-[400] ml-4">{'(read more about soil)'}</span></p>}
+          {stateName && <p className="font-semibold text-xl font-sans">{(stateName ? stateName : 'Loading...')}<span className="text-sm font-[400] ml-4">{'(read more about its soil)'}</span></p>}
         </div>
 
       <div
@@ -105,20 +106,33 @@ fetch('https://gateway-dev.on-demand.io/chat/v1/sessions', {
           !clicked && "translate-x-[100%]"
         } transition-transform duration-300 absolute z-20 bg-image-soil top-0 h-full w-full overflow-hidden`}
       >
-       <div className="px-3 py-1 mr-10 text-white-500 ">{query === undefined || query.chatMessage === undefined ? (
-    <div className="text-white"><div className="text-white  rounded-2xl justify-center items-center flex flex-col">  <InfinitySpin
-    visible={true}
-    width="200"
-    color="#aaffdd"
-    ariaLabel="infinity-spin-loading"
-    />
-    </div></div>
-  ) : (
-    
-      <p className="text-sm  font-sans text-justify text-zinc-200 font-light p-2  ">
-  {cleanedAnswer}
-</p>
-  )}</div>
+       <div className="px-3 py-1 mr-10 text-white-500 ">{isLoading ? (
+  <div className="text-white">
+    <div className="text-white rounded-2xl justify-center items-center flex flex-col">
+      <InfinitySpin
+        visible={true}
+        width="200"
+        color="#aaffdd"
+        ariaLabel="infinity-spin-loading"
+      />
+    </div>
+  </div>
+) : query === undefined || query.chatMessage === undefined ? (
+  <div className="text-white">
+    <div className="text-white rounded-2xl justify-center items-center flex flex-col">
+      <InfinitySpin
+        visible={true}
+        width="200"
+        color="#aaffdd"
+        ariaLabel="infinity-spin-loading"
+      />
+    </div>
+  </div>
+) : (
+  <p className="text-sm font-sans text-justify text-zinc-200 font-light p-2">
+    {cleanedAnswer}
+  </p>
+)}</div>
       </div>
     </div>
   );
