@@ -98,7 +98,7 @@ function getWeatherCondition(answer: string | undefined) {
   const snowyKeywords = ['snow', 'snowy', 'snowing', 'snowfall', 'snowflakes', 'snowstorm', 'blizzard', 'sleet', 'flurries','cold','ice','icy','frost','frosty'];
   const stormyKeywords = ['storm', 'stormy', 'thunderstorm', 'thunder', 'lightning', 'thundering', 'storming', 'hurricane', 'tornado', 'cyclone'];
 
-  if (sunnyKeywords.some(keyword => answer.includes(keyword))) {
+  if (sunnyKeywords.some(keyword => answer && answer.includes(keyword))) {
     return (
       <div className="icon sunny">
         <div className="sun">
@@ -106,14 +106,14 @@ function getWeatherCondition(answer: string | undefined) {
         </div>
       </div>
     );
-  } else if (showerKeywords.some(keyword => answer.includes(keyword))) {
+  } else if (showerKeywords.some(keyword => answer && answer.includes(keyword))) {
     return (
       <div className="icon rainy">
   <div className="cloud"></div>
   <div className="rain"></div>
 </div>
     );
-  } else if (snowyKeywords.some(keyword => answer.includes(keyword))) {
+  } else if (snowyKeywords.some(keyword => answer && answer.includes(keyword))) {
     return (
       <div className="icon flurries -translate-y-5">
       <div className="cloud"></div>
@@ -123,7 +123,7 @@ function getWeatherCondition(answer: string | undefined) {
       </div>
     </div>
     );
-  } else if (stormyKeywords.some(keyword => answer.includes(keyword))) {
+  } else if (stormyKeywords.some(keyword => answer && answer.includes(keyword))) {
     return (
       <div className="icon thunder-storm">
   <div className="cloud"></div>
