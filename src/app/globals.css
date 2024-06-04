@@ -267,6 +267,11 @@ a {
   animation: spin 16s linear infinite reverse;
 }
 
+ol > li {
+  list-style-type: disc;
+  font-weight: 700;
+  margin-block:4px;
+}
 
 /* Animations */ 
 
