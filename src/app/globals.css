@@ -357,3 +357,14 @@ ol > li {
 .image{
   filter: brightness(0.4);
 }
+
+
+.home{
+  background-image: url("/bg.jpg");
+  background-size:cover;
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+  /* background-position-y:10vh ; */
+  /* filter: brightness(0.4); */
+  
+}

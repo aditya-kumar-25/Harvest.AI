@@ -70,7 +70,7 @@ const Content: React.FC<ContentProps> = ({ chatOpened }) => {
             <div className="col-span-1 border border-slate-600 h-[29vh] rounded-2xl ">
                 <MapContainer style={{ height: "100%", width: "100%", overflow: "hidden", borderRadius: "15px" }}
                     key={mapKey}
-                    center={{ lat: 51.505, lng: -0.09 }}
+                    center={{ lat: 24.6637, lng:93.9063 }}
                     zoom={13}
                     scrollWheelZoom={false}>
                     <TileLayer

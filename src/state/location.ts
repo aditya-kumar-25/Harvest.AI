@@ -2,7 +2,7 @@ import { atom } from "recoil";
 
 export const locationState = atom({
     key: "locationState",
-    default: { lat: 23.4241, lng: 23.4241 },
+    default: { lat: 24.6637, lng: 93.9063 },
     });
 
 export const StateName = atom({
