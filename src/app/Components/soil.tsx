@@ -1,6 +1,6 @@
 "use client";
 
-import { StateName } from "@/state/location";
+import { locationState, StateName } from "@/state/location";
 import React, { use, useEffect, useState } from "react";
 import { FaChevronLeft } from "react-icons/fa6";
 import { ImLocation } from "react-icons/im";
@@ -9,7 +9,7 @@ import { useRecoilState } from "recoil";
 
 
 function SoilQualityCheck (){
-  
+  const [location, setLocation] = useRecoilState(locationState);
     const [stateName, setStateName] = useRecoilState(StateName)
   const [clicked, setClicked] = useState<boolean>(false);
     const [query, setQuery] = useState<string>('');
@@ -41,8 +41,8 @@ fetch('https://gateway-dev.on-demand.io/chat/v1/sessions', {
         },
         body: JSON.stringify({
             "endpointId": "predefined-openai-gpt4o",
-            "query": `soil quality of ${stateName}`,
-            "pluginIds": ["plugin-1713962163", "plugin-1717403693"],
+            "query": `soil quality of ${location.lat}N and ${location.lng}E in ${stateName}`,
+            "pluginIds": ["plugin-1717418212"],
             "responseMode": "sync"
         })
     })
@@ -62,6 +62,22 @@ fetch('https://gateway-dev.on-demand.io/chat/v1/sessions', {
 
 
   }, [stateName]);
+
+
+  const answer = query.chatMessage?.answer;
+
+  const phrasesToRemove = [
+    "The provided context does not contain specific information about the soil quality of ${stateName} ? However, based on general knowledge, ",
+    "The context provided does not contain specific information about the soil quality of ${stateName}? However, based on general knowledge,"
+  ];
+  
+  let cleanedAnswer = answer;
+  
+  if (cleanedAnswer) {
+    phrasesToRemove.forEach(phrase => {
+      cleanedAnswer = cleanedAnswer.replace(phrase, "");
+    });
+  }
 
 
   return (
@@ -89,7 +105,7 @@ fetch('https://gateway-dev.on-demand.io/chat/v1/sessions', {
           !clicked && "translate-x-[100%]"
         } transition-transform duration-300 absolute z-20 bg-image-soil top-0 h-full w-full overflow-hidden`}
       >
-       <p className="px-3 py-1 mr-10 text-white-500 ">{query === undefined || query.chatMessage === undefined ? (
+       <div className="px-3 py-1 mr-10 text-white-500 ">{query === undefined || query.chatMessage === undefined ? (
     <div className="text-white"><div className="text-white  rounded-2xl justify-center items-center flex flex-col">  <InfinitySpin
     visible={true}
     width="200"
@@ -98,10 +114,11 @@ fetch('https://gateway-dev.on-demand.io/chat/v1/sessions', {
     />
     </div></div>
   ) : (
-    <p className="text-sm  font-sans text-justify text-zinc-200 font-light p-2  ">
-      {JSON.stringify(query.chatMessage.answer.replace(`The provided context does not contain specific information about the soil quality of ${stateName}. However, based on general knowledge ,`, ""))}
-    </p>
-  )}</p>
+    
+      <p className="text-sm  font-sans text-justify text-zinc-200 font-light p-2  ">
+  {cleanedAnswer}
+</p>
+  )}</div>
       </div>
     </div>
   );

@@ -72,7 +72,7 @@ export function Weather(){
 
 {query && query.chatMessage ? getWeatherCondition(query.chatMessage.answer) : ''}
 </div>
-<div className="h-[28.8vh] border-l  -translate-y-[0.17rem] glass rounded-tr-2xl rounded-br-2xl p-2.5 px-3 flex flex-col justify-center">
+<div className="h-[28.8vh] border-l  -translate-y-[0.17rem] glass rounded-tr-2xl rounded-br-2xl p-2.5 px-3 flex flex-col justify-center w-3/5">
   {query === undefined || query.chatMessage === undefined ? (
     <div className="text-white"><div className="text-white w-full h-full  glass rounded-2xl justify-center items-center flex flex-col">  <InfinitySpin
     visible={true}
@@ -89,8 +89,11 @@ export function Weather(){
 </div>
 </div>
 }
-function getWeatherCondition(answer: string) {
-  const sunnyKeywords = ['sunny', 'sunshine', 'sunlight', 'sun', 'sunny day', 'humidity', 'hot', 'heat', 'warm', 'warmth', 'sweat', 'sweaty', 'sweating', 'desert'];
+function getWeatherCondition(answer: string | undefined) {
+  if (!answer) {
+    return null;
+  }
+    const sunnyKeywords = ['sunny', 'sunshine', 'sunlight', 'sun', 'sunny day', 'humidity', 'hot', 'heat', 'warm', 'warmth', 'sweat', 'sweaty', 'sweating', 'desert'];
   const showerKeywords = ['shower', 'showering', 'showered', 'showering day', 'showered day','rain','raining'];
   const snowyKeywords = ['snow', 'snowy', 'snowing', 'snowfall', 'snowflakes', 'snowstorm', 'blizzard', 'sleet', 'flurries','cold','ice','icy','frost','frosty'];
   const stormyKeywords = ['storm', 'stormy', 'thunderstorm', 'thunder', 'lightning', 'thundering', 'storming', 'hurricane', 'tornado', 'cyclone'];
@@ -130,5 +133,14 @@ function getWeatherCondition(answer: string) {
   </div>
 </div>
     );
+  }
+  else{
+    <div className="icon sun-shower">
+  <div className="cloud"></div>
+  <div className="sun">
+    <div className="rays"></div>
+  </div>
+  <div className="rain"></div>
+</div>
   }
 }
