@@ -7,11 +7,18 @@ import { ImLocation } from "react-icons/im";
 import { InfinitySpin } from "react-loader-spinner";
 import { useRecoilState } from "recoil";
 
+
+interface ChatQuery {
+  chatMessage?: {
+    answer?: string;
+  };
+}
+
 function SoilQualityCheck() {
   const [location, setLocation] = useRecoilState(locationState);
   const [stateName, setStateName] = useRecoilState(StateName);
   const [clicked, setClicked] = useState<boolean>(false);
-  const [query, setQuery] = useState<string>("");
+  const [query, setQuery] = useState<ChatQuery>({});
   const [isLoading, setIsLoading] = useState<boolean>(false);
   useEffect(() => {
     if (location.lat !== 0 && location.lng !== 0) {
@@ -74,7 +81,7 @@ function SoilQualityCheck() {
     "The context provided does not contain specific information about the soil quality of ${stateName}? However, based on general knowledge,",
   ];
 
-  let cleanedAnswer = answer;
+  let cleanedAnswer = answer ?? "";
 
   if (cleanedAnswer) {
     phrasesToRemove.forEach((phrase) => {
@@ -123,10 +130,8 @@ function SoilQualityCheck() {
             <div className="text-white">
               <div className="text-white rounded-2xl justify-center items-center flex flex-col">
                 <InfinitySpin
-                  visible={true}
                   width="200"
                   color="#aaffdd"
-                  ariaLabel="infinity-spin-loading"
                 />
               </div>
             </div>
@@ -134,10 +139,8 @@ function SoilQualityCheck() {
             <div className="text-white">
               <div className="text-white rounded-2xl justify-center items-center flex flex-col">
                 <InfinitySpin
-                  visible={true}
                   width="200"
                   color="#aaffdd"
-                  ariaLabel="infinity-spin-loading"
                 />
               </div>
             </div>

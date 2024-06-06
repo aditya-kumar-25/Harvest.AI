@@ -2,12 +2,18 @@ import { locationState, StateName } from "@/state/location";
 import { useEffect, useState } from "react";
 import { useRecoilState } from "recoil";
 import { getStateFromLatLng } from "./Content";
-import { InfinitySpin, MutatingDots, Oval } from "react-loader-spinner";
+import { InfinitySpin } from "react-loader-spinner";
+
+interface ChatQuery {
+  chatMessage?: {
+    answer?: string;
+  };
+}
 
 export function Weather() {
   const [location, setLocation] = useRecoilState(locationState);
   const [stateName, setStateName] = useRecoilState(StateName);
-  const [query, setQuery] = useState<string>("");
+  const [query, setQuery] = useState<ChatQuery>({});
   const [isLoading, setIsLoading] = useState<boolean>(false);
 
   useEffect(() => {
@@ -61,111 +67,60 @@ export function Weather() {
         setIsLoading(false);
       })();
     }
-  }, [location]);
+  }, [location, setStateName]);
 
   if (isLoading) {
     return (
-      <div className="text-white w-full h-full  glass rounded-2xl justify-center items-center flex flex-col">
-        {" "}
-        <InfinitySpin
-          visible={true}
-          width="200"
-          color="#aaffdd"
-          ariaLabel="infinity-spin-loading"
-        />
+      <div className="text-white w-full h-full glass rounded-2xl justify-center items-center flex flex-col">
+        <InfinitySpin width="200" color="#aaffdd" />
       </div>
     );
   }
 
   return (
-    <div className=" flex flex-row md:gap-7 items-center">
+    <div className="flex flex-row md:gap-7 items-center">
       <div className="w-2/5 flex flex-col justify-center ">
-        {query && query.chatMessage
+        {query.chatMessage?.answer
           ? getWeatherCondition(query.chatMessage.answer)
           : ""}
       </div>
-      <div className="h-[28.8vh] border-l  -translate-y-[0.17rem] glass rounded-tr-2xl rounded-br-2xl p-2.5 px-3 flex flex-col justify-center">
-        {query === undefined || query.chatMessage === undefined ? (
-          <div className="text-white">
-            <div className="text-white w-full h-full  glass rounded-2xl justify-center items-center flex flex-col">
-              {" "}
-              <InfinitySpin
-                visible={true}
-                width="200"
-                color="#aaffdd"
-                ariaLabel="infinity-spin-loading"
-              />
+     
+        {!query.chatMessage ? (
+          <div className="text-white h-[28.8vh] border-l  glass rounded-tr-2xl rounded-br-2xl p-2.5 px-3 flex flex-col justify-center">
+            <div className="text-white w-full h-full glass rounded-2xl justify-center items-center flex flex-col">
+              <InfinitySpin width="200" color="#aaffdd" />
             </div>
           </div>
         ) : (
-          <p className="text-sm  font-sans text-justify text-zinc-200 font-light overflow-y-auto">
+          <div className="-translate-y-[0.33rem] h-[28.8vh] border-l  glass rounded-tr-2xl rounded-br-2xl p-2.5 px-3 flex flex-col justify-center">
+          <p className="text-sm font-sans text-justify text-zinc-200 font-light overflow-y-auto">
             {JSON.stringify(query.chatMessage.answer)}
           </p>
-        )}
+          </div>        )}
       </div>
-    </div>
+    
   );
 }
+
 function getWeatherCondition(answer: string | undefined) {
   if (!answer) {
     return null;
   }
+
   const sunnyKeywords = [
-    "sunny",
-    "sunshine",
-    "sunlight",
-    "sun",
-    "sunny day",
-    "humidity",
-    "hot",
-    "heat",
-    "warm",
-    "warmth",
-    "sweat",
-    "sweaty",
-    "sweating",
-    "desert",
+    "sunny", "sunshine", "sunlight", "sun", "sunny day", "humidity", "hot", "heat", "warm", "warmth", "sweat", "sweaty", "sweating", "desert",
   ];
   const showerKeywords = [
-    "shower",
-    "showering",
-    "showered",
-    "showering day",
-    "showered day",
-    "rain",
-    "raining",
-    "wet",
+    "shower", "showering", "showered", "showering day", "showered day", "rain", "raining", "wet",
   ];
   const snowyKeywords = [
-    "snow",
-    "snowy",
-    "snowing",
-    "snowfall",
-    "snowflakes",
-    "snowstorm",
-    "blizzard",
-    "sleet",
-    "flurries",
-    "cold",
-    "ice",
-    "icy",
-    "frost",
-    "frosty",
+    "snow", "snowy", "snowing", "snowfall", "snowflakes", "snowstorm", "blizzard", "sleet", "flurries", "cold", "ice", "icy", "frost", "frosty",
   ];
   const stormyKeywords = [
-    "storm",
-    "stormy",
-    "thunderstorm",
-    "thunder",
-    "lightning",
-    "thundering",
-    "storming",
-    "hurricane",
-    "tornado",
-    "cyclone",
+    "storm", "stormy", "thunderstorm", "thunder", "lightning", "thundering", "storming", "hurricane", "tornado", "cyclone",
   ];
 
-  if (sunnyKeywords.some((keyword) => answer && answer.includes(keyword))) {
+  if (sunnyKeywords.some((keyword) => answer.includes(keyword))) {
     return (
       <div className="icon sunny">
         <div className="sun">
@@ -173,18 +128,14 @@ function getWeatherCondition(answer: string | undefined) {
         </div>
       </div>
     );
-  } else if (
-    showerKeywords.some((keyword) => answer && answer.includes(keyword))
-  ) {
+  } else if (showerKeywords.some((keyword) => answer.includes(keyword))) {
     return (
       <div className="icon rainy">
         <div className="cloud"></div>
         <div className="rain"></div>
       </div>
     );
-  } else if (
-    snowyKeywords.some((keyword) => answer && answer.includes(keyword))
-  ) {
+  } else if (snowyKeywords.some((keyword) => answer.includes(keyword))) {
     return (
       <div className="icon flurries -translate-y-5">
         <div className="cloud"></div>
@@ -194,9 +145,7 @@ function getWeatherCondition(answer: string | undefined) {
         </div>
       </div>
     );
-  } else if (
-    stormyKeywords.some((keyword) => answer && answer.includes(keyword))
-  ) {
+  } else if (stormyKeywords.some((keyword) => answer.includes(keyword))) {
     return (
       <div className="icon thunder-storm">
         <div className="cloud"></div>
@@ -207,4 +156,5 @@ function getWeatherCondition(answer: string | undefined) {
       </div>
     );
   }
+  return null;
 }

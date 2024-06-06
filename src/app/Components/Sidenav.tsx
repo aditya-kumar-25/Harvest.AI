@@ -139,10 +139,8 @@ const Sidenav: React.FC<SidenavProps> = ({ chatOpened, setChatOpened }) => {
               })}
               {
                 debounce && <div className=" flex flex-col justify-center items-center -ml-7 bg-slate-700">  <InfinitySpin
-                visible={true}
                 width="100"
                 color="#aaffdd"
-                ariaLabel="infinity-spin-loading"
               />
               </div>
               }

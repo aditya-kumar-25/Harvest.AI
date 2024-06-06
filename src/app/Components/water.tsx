@@ -3,10 +3,15 @@ import { useEffect, useState } from "react";
 import { InfinitySpin } from "react-loader-spinner";
 import { useRecoilState } from "recoil";
 
+interface ChatQuery {
+  chatMessage?: {
+    answer?: string;
+  };
+}
 export function Heat() {
   const [stateName, setStateName] = useRecoilState(StateName);
   const [location, setLocation] = useRecoilState(locationState);
-  const [query, setQuery] = useState<string>("");
+  const [query, setQuery] = useState<ChatQuery>({});
   const [isLoading, setIsLoading] = useState<boolean>(false);
 
   useEffect(() => {
@@ -59,21 +64,19 @@ export function Heat() {
   }, [stateName]);
 
   return (
-    <div className="w-full h-full overflow-y-scroll">
+    <div className="w-full h-full overflow-y-auto">
       {query === undefined || query.chatMessage === undefined ? (
         <div className="text-white">
           <div className="text-white w-full h-[25.5vh]  glass rounded-2xl justify-center items-center flex flex-col">
             {" "}
             <InfinitySpin
-              visible={true}
               width="200"
               color="#aaffdd"
-              ariaLabel="infinity-spin-loading"
             />
           </div>
         </div>
       ) : (
-        <div>
+        <div className="">
           <h2 className=" pl-2 pb-2 border-b border-zinc-500 text-white">
             Water Quality
           </h2>
