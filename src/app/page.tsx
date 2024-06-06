@@ -10,7 +10,7 @@ import { RiMenuUnfold3Line } from "react-icons/ri";
 
 export default function Home() {
 
-  const [chatOpened, setChatOpened] = useState<Boolean>(true);
+  const [chatOpened, setChatOpened] = useState<boolean>(true);
 
   return (
     <RecoilRoot>
