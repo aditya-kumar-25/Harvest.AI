@@ -15,29 +15,6 @@ type SidenavProps = {
   setChatOpened: any;
 };
 
-const sampleData = [
-  {
-    question: "What are the major crops grown in UAE?",
-    answer:
-      "The major crops grown in UAE include dates, tomatoes, cucumbers, eggplants, and lettuce.",
-  },
-  {
-    question: "What are the common farming practices in UAE?",
-    answer:
-      "Common farming practices in UAE include hydroponics, vertical farming, and greenhouse cultivation.",
-  },
-  {
-    question: "How does the UAE ensure water availability for agriculture?",
-    answer:
-      "The UAE utilizes advanced irrigation techniques such as drip irrigation and desalination of seawater to ensure water availability for agriculture.",
-  },
-  {
-    question: "What are the challenges faced by agriculture in UAE?",
-    answer:
-      "Challenges faced by agriculture in UAE include limited arable land, high temperatures, and water scarcity.",
-  },
-];
-
 const Sidenav: React.FC<SidenavProps> = ({ chatOpened, setChatOpened }) => {
   const [debounce, setDebounce] = useState<Boolean>(false);
   const [search, setSearch] = useState<string>("");
@@ -162,10 +139,8 @@ const Sidenav: React.FC<SidenavProps> = ({ chatOpened, setChatOpened }) => {
               })}
               {
                 debounce && <div className=" flex flex-col justify-center items-center -ml-7 bg-slate-700">  <InfinitySpin
-                visible={true}
                 width="100"
                 color="#aaffdd"
-                ariaLabel="infinity-spin-loading"
               />
               </div>
               }

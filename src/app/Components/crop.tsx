@@ -80,16 +80,14 @@ export function Crop() {
   }, [stateName]);
 
   return (
-    <div className="w-full h-full overflow-y-scroll">
+    <div className="w-full h-full ">
       {content.length === 0 ? (
         <div className="text-white">
           <div className="text-white w-full h-[25.5vh]  glass rounded-2xl justify-center items-center flex flex-col">
-            {" "}
+            
             <InfinitySpin
-              visible={true}
               width="200"
               color="#aaffdd"
-              ariaLabel="infinity-spin-loading"
             />
           </div>
         </div>
