@@ -78,25 +78,26 @@ export function Weather() {
   }
 
   return (
-    <div className="flex flex-row md:gap-7 items-center">
-      <div className="w-2/5 flex flex-col justify-center ">
+    <div className="flex flex-row  items-center h-[29vh] justify-center">
+      <div className="w-[42%]  flex flex-col justify-center items-center align-middle">
         {query.chatMessage?.answer
           ? getWeatherCondition(query.chatMessage.answer)
           : ""}
       </div>
-     
+      <div className="glass rounded-tr-2xl rounded-br-2xl h-full flex flex-col items-center justify-center px-4 border-l">
+
         {!query.chatMessage ? (
-          <div className="text-white h-[28.8vh] border-l  glass rounded-tr-2xl rounded-br-2xl p-2.5 px-3 flex flex-col justify-center">
+          
             <div className="text-white w-full h-full glass rounded-2xl justify-center items-center flex flex-col">
               <InfinitySpin width="200" color="#aaffdd" />
             </div>
-          </div>
+          
         ) : (
-          <div className="-translate-y-[0.33rem] h-[28.8vh] border-l  glass rounded-tr-2xl rounded-br-2xl p-2.5 px-3 flex flex-col justify-center">
           <p className="text-sm font-sans text-justify text-zinc-200 font-light overflow-y-auto">
             {JSON.stringify(query.chatMessage.answer)}
           </p>
-          </div>        )}
+                )}
+                </div>
       </div>
     
   );

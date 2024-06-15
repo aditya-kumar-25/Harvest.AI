@@ -9,25 +9,21 @@ export function Crop() {
   const [location, setLocation] = useRecoilState(locationState);
   const [content, setContent] = useState("");
 
-  const [topFour, setTopFour] = useState<any>([]);
+  const [topFour, setTopFour] = useState<string[]>([]);
 
   useEffect(() => {
-
     const extractTopFour = () => {
-        const cropList = document.getElementById('crop-list');
-
-        const crops = cropList ? cropList.getElementsByTagName('li') : [];
+      const cropList = document.getElementById('crop-list');
+      const crops = cropList ? cropList.getElementsByTagName('li') : [];
   
-        const extractedCrops = [];
-        for (let i = 0; i < 4 && i < crops.length; i++) {
-          extractedCrops.push(crops[i].innerText);
-        }
-        setTopFour(extractedCrops.map((item) => item.split(':')[0]));
-        console.log(extractedCrops.map((item) => item.split(':')[0]));
+      const extractedCrops: string[] = [];
+      for (let i = 0; i < 4 && i < crops.length; i++) {
+        extractedCrops.push(crops[i].innerText);
+      }
+      setTopFour(extractedCrops.map((item) => item.split(':')[0]));
     };
 
     extractTopFour();
-
   }, [content]);
 
   useEffect(() => {
@@ -56,7 +52,7 @@ export function Crop() {
             },
             body: JSON.stringify({
               endpointId: "predefined-openai-gpt4o",
-              query: `Give me the crop suggesstions for ${stateName}`,
+              query: `Give me the crop suggestions for ${stateName}`,
               pluginIds: ["plugin-1717467138"],
               responseMode: "sync",
             }),
@@ -64,8 +60,6 @@ export function Crop() {
         )
           .then((response) => response.json())
           .then(async (data) => {
-            // Handle response data here
-            console.log(data);
             const res = data?.chatMessage?.answer;
             const html = await markdownToHtml(res);
             setContent(html);
@@ -79,35 +73,38 @@ export function Crop() {
       });
   }, [stateName]);
 
+  const imageUrl = (query: string) => `https://source.unsplash.com/random?${query}`;
+
   return (
     <div className="w-full h-full ">
       {content.length === 0 ? (
         <div className="text-white">
-          <div className="text-white w-full h-[25.5vh]  glass rounded-2xl justify-center items-center flex flex-col">
-            
-            <InfinitySpin
-              width="200"
-              color="#aaffdd"
-            />
+          <div className="text-white w-full h-[25.5vh] glass rounded-2xl justify-center items-center flex flex-col">
+            <InfinitySpin width="200" color="#aaffdd" />
           </div>
         </div>
-      ) : (<>
-        <p className="pl-3 p-1 pb-2 border-b  border-zinc-500 ">Crop Recommendations</p>
-        <div className=" flex flex-row pt-3">
-            
+      ) : (
+        <>
+          <p className="pl-3 p-1 pb-2 border-b border-zinc-500">Crop Recommendations</p>
+          <div className="flex flex-row pt-3">
             <div className="w-2/5 grid grid-cols-2 h-[15vh] p-3 gap-4">
-                
-            <img className=" col-span-1 aspect-square h-[20vh] w-[20vh] rounded-xl border border-slate-500"  src={`https://source.unsplash.com/featured/?${topFour[0]}`} alt="i1" />
-            <img className=" col-span-1 h-[20vh] w-[20vh] rounded-xl border border-slate-500" src={`https://source.unsplash.com/featured/?${topFour[1]}`} alt="i2" />
-            <img className=" col-span-1 h-[20vh] w-[20vh] border rounded-xl border-slate-500" src={`https://source.unsplash.com/featured/?${topFour[2]}`} alt="i3" />
-            <img className=" col-span-1 h-[20vh] w-[20vh] border rounded-xl border-slate-500" src={`https://source.unsplash.com/featured/?${topFour[3]}`} alt="i4" />
+              {topFour.map((crop, index) => (
+                <img
+                  key={index}
+                  className="col-span-1 aspect-square h-[20vh] w-[20vh] rounded-xl border border-slate-500"
+                  src={imageUrl(crop)}
+                  alt={`crop-${index}`}
+                  onError={(e) => { e.currentTarget.src = 'https://via.placeholder.com/150'; }}
+                />
+              ))}
             </div>
-        <div
-        id="crop-list"
-          dangerouslySetInnerHTML={{ __html: content }}
-          className="text-sm  font-sans text-justify text-zinc-200 font-light px-4  w-3/5"
-        ></div>
-        </div></>
+            <div
+              id="crop-list"
+              dangerouslySetInnerHTML={{ __html: content }}
+              className="text-sm font-sans text-justify text-zinc-200 font-light px-4 w-3/5"
+            ></div>
+          </div>
+        </>
       )}
     </div>
   );
