@@ -27,7 +27,7 @@ export function Weather() {
           console.log(`State: ${state}`);
 
           const sessionResponse = await fetch(
-            "https://gateway-dev.on-demand.io/chat/v1/sessions",
+            "https://api-dev.on-demand.io/chat/v1/sessions",
             {
               method: "POST",
               headers: {
@@ -42,7 +42,7 @@ export function Weather() {
           const sessionId = sessionData.chatSession.id;
 
           const queryResponse = await fetch(
-            `https://gateway-dev.on-demand.io/chat/v1/sessions/${sessionId}/query`,
+            `https://api-dev.on-demand.io/chat/v1/sessions/${sessionId}/query`,
             {
               method: "POST",
               headers: {

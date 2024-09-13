@@ -2,7 +2,7 @@ export const getChatResponse = async (query: string) => {
     console.log('Query = ' , query);
   
 // Create Chat Session API
-return fetch('https://gateway-dev.on-demand.io/chat/v1/sessions', {
+return fetch('https://api-dev.on-demand.io/chat/v1/sessions', {
     method: 'POST',
     headers: {
         'apikey': 'zVzRjg2Lg2S2QI0dwIWjjOGc1RrofWjt',
@@ -19,7 +19,7 @@ return fetch('https://gateway-dev.on-demand.io/chat/v1/sessions', {
     const sessionId = data.chatSession.id;
 
     // Step 2: Answer Query using the session ID
-    return fetch(`https://gateway-dev.on-demand.io/chat/v1/sessions/${sessionId}/query`, {
+    return fetch(`https://api-dev.on-demand.io/chat/v1/sessions/${sessionId}/query`, {
         method: 'POST',
         headers: {
             'apikey': 'zVzRjg2Lg2S2QI0dwIWjjOGc1RrofWjt',

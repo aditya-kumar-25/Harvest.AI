@@ -20,7 +20,7 @@ export function Heat() {
 
     // Create Chat Session
     // Create Chat Session API
-    fetch("https://gateway-dev.on-demand.io/chat/v1/sessions", {
+    fetch("https://api-dev.on-demand.io/chat/v1/sessions", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -35,7 +35,7 @@ export function Heat() {
 
         // Use the session ID for the second API call
         fetch(
-          `https://gateway-dev.on-demand.io/chat/v1/sessions/${sessionId}/query`,
+          `https://api-dev.on-demand.io/chat/v1/sessions/${sessionId}/query`,
           {
             method: "POST",
             headers: {

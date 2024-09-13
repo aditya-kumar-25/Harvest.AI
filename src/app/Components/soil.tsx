@@ -27,7 +27,7 @@ function SoilQualityCheck() {
       if (!stateName) return;
       // Create Chat Session
       // Step 1: Create Chat Session
-      fetch("https://gateway-dev.on-demand.io/chat/v1/sessions", {
+      fetch("https://api-dev.on-demand.io/chat/v1/sessions", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -43,7 +43,7 @@ function SoilQualityCheck() {
           const sessionId = data.chatSession.id; // Extracting session ID
           // Step 2: Answer Query using the sessionId
           fetch(
-            `https://gateway-dev.on-demand.io/chat/v1/sessions/${sessionId}/query`,
+            `https://api-dev.on-demand.io/chat/v1/sessions/${sessionId}/query`,
             {
               method: "POST",
               headers: {
