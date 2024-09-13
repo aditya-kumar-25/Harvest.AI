@@ -29,7 +29,7 @@ export function Crop() {
   useEffect(() => {
     if (!stateName) return; // If stateName is null, exit
 
-    fetch("https://gateway-dev.on-demand.io/chat/v1/sessions", {
+    fetch("https://api-dev.on-demand.io/chat/v1/sessions", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -43,7 +43,7 @@ export function Crop() {
 
         // Answer Query API
         fetch(
-          `https://gateway-dev.on-demand.io/chat/v1/sessions/${sessionId}/query`,
+          `https://api-dev.on-demand.io/chat/v1/sessions/${sessionId}/query`,
           {
             method: "POST",
             headers: {
