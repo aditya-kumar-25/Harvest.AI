@@ -46,7 +46,7 @@ export function Weather() {
             {
               method: "POST",
               headers: {
-                apikey: "zVzRjg2Lg2S2QI0dwIWjjOGc1RrofWjt",
+                apikey: "goDTkO8tLo4XGDtu4yUWkFOT2mPovp9m",
                 "Content-Type": "application/json",
               },
               body: JSON.stringify({
