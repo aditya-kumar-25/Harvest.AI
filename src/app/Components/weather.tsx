@@ -3,16 +3,17 @@ import { useEffect, useState } from "react";
 import { useRecoilState } from "recoil";
 import { getStateFromLatLng } from "./Content";
 import { InfinitySpin } from "react-loader-spinner";
+import dotenv from 'dotenv';
+import axios from 'axios';
+dotenv.config();
 
 interface ChatQuery {
-  chatMessage?: {
-    answer?: string;
-  };
+  answer?: string;
 }
 
 export function Weather() {
-  const [location, setLocation] = useRecoilState(locationState);
-  const [stateName, setStateName] = useRecoilState(StateName);
+  const [location] = useRecoilState(locationState);
+  const [, setStateName] = useRecoilState(StateName);
   const [query, setQuery] = useState<ChatQuery>({});
   const [isLoading, setIsLoading] = useState<boolean>(false);
 
@@ -26,39 +27,41 @@ export function Weather() {
           setStateName(state);
           console.log(`State: ${state}`);
 
-          const sessionResponse = await fetch(
-            "https://api-dev.on-demand.io/chat/v1/sessions",
-            {
-              method: "POST",
-              headers: {
-                apikey: "zVzRjg2Lg2S2QI0dwIWjjOGc1RrofWjt",
-                "Content-Type": "application/json",
-              },
-              body: JSON.stringify({ pluginIds: [], externalUserId: "1" }),
-            }
+          let data = JSON.stringify({
+            "pluginIds": [
+              "plugin-1717419365",
+              "plugin-1713962163"
+            ],
+            "externalUserId": "1"
+          });
+          
+          let config = {
+            method: 'post',
+            maxBodyLength: Infinity,
+            url: 'https://api.on-demand.io/chat/v1/sessions',
+            headers: { 
+              'apikey': 'SyuuzaftNhzKZoZNFZz33xxMZblRer4p'!, 
+              'Content-Type': 'application/json'
+            },
+            data : data
+          };
+          
+          let sessionId = '';
+          await axios.request(config)
+          .then((response) => {
+            console.log(JSON.stringify(response.data));
+            sessionId = response.data.chatSession.id;
+          })
+          .catch((error) => {
+            console.log(error);
+          });
+          
+          const queryData = await submitQuery(
+            'SyuuzaftNhzKZoZNFZz33xxMZblRer4p'!,
+            sessionId,
+            `What is the climatic condition at ${state} with ${location.lat}N and ${location.lng}E in 25 words ?`
           );
 
-          const sessionData = await sessionResponse.json();
-          const sessionId = sessionData.chatSession.id;
-
-          const queryResponse = await fetch(
-            `https://api-dev.on-demand.io/chat/v1/sessions/${sessionId}/query`,
-            {
-              method: "POST",
-              headers: {
-                apikey: "goDTkO8tLo4XGDtu4yUWkFOT2mPovp9m",
-                "Content-Type": "application/json",
-              },
-              body: JSON.stringify({
-                endpointId: "predefined-openai-gpt4o",
-                query: `What is the climatic condition at ${state} with ${location.lat}N and ${location.lng}E in 25 words ?`,
-                pluginIds: ["plugin-1715797457", "plugin-1713962163"],
-                responseMode: "sync",
-              }),
-            }
-          );
-
-          const queryData = await queryResponse.json();
           setQuery(queryData);
           console.log(queryData);
         } catch (error) {
@@ -66,6 +69,7 @@ export function Weather() {
         }
         setIsLoading(false);
       })();
+
     }
   }, [location, setStateName]);
 
@@ -80,30 +84,56 @@ export function Weather() {
   return (
     <div className="flex flex-row  items-center h-[29vh] justify-center">
       <div className="w-[42%]  flex flex-col justify-center items-center align-middle">
-        {query.chatMessage?.answer
-          ? getWeatherCondition(query.chatMessage.answer)
+        {query?.answer
+          ? getWeatherCondition(query.answer)
           : ""}
       </div>
       <div className="glass rounded-tr-2xl rounded-br-2xl h-full flex flex-col items-center justify-center px-4 border-l">
-
-        {!query.chatMessage ? (
-          
-            <div className="text-white w-full h-full glass rounded-2xl justify-center items-center flex flex-col">
-              <InfinitySpin width="200" color="#aaffdd" />
-            </div>
-          
+        {!query.answer ? (
+          <div className="text-white w-full h-full glass rounded-2xl justify-center items-center flex flex-col">
+            <InfinitySpin width="200" color="#aaffdd" />
+          </div>
         ) : (
           <p className="text-sm font-sans text-justify text-zinc-200 font-light overflow-y-auto">
-            {JSON.stringify(query.chatMessage.answer)}
+            {query.answer}
           </p>
-                )}
-                </div>
+        )}
       </div>
-    
+    </div>
   );
 }
 
+async function submitQuery(apiKey: string, sessionId: string, query: string) {
+  const url = `https://api.on-demand.io/chat/v1/sessions/${sessionId}/query`;
+  const headers = {
+    'apikey': apiKey,
+    'Content-Type': 'application/json'
+  };
+  const body = JSON.stringify({
+    endpointId: 'predefined-openai-gpt4o',
+    query: query,
+    pluginIds: ["plugin-1717419365", "plugin-1713962163"],
+    responseMode: 'sync'
+  });
+
+  try {
+    const response = await axios.post(url, body, { headers });
+    return response.data.data; // Return the data object directly
+  } catch (error) {
+    if (axios.isAxiosError(error)) {
+      throw new Error(`Failed to submit query: ${error.response?.data?.message || error.message}`);
+    } else {
+      if (error instanceof Error) {
+        throw new Error(`Failed to submit query: ${error.message}`);
+      } else {
+        throw new Error('Failed to submit query: An unknown error occurred');
+      }
+    }
+  }
+}
+
 function getWeatherCondition(answer: string | undefined) {
+  console.log(answer);
   if (!answer) {
     return null;
   }

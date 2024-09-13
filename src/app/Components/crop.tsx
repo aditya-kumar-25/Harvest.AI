@@ -3,6 +3,7 @@ import { useEffect, useState } from "react";
 import { InfinitySpin } from "react-loader-spinner";
 import { useRecoilState } from "recoil";
 import markdownToHtml from "../api/textFormatter";
+import axios from "axios";
 
 export function Crop() {
   const [stateName, setStateName] = useRecoilState(StateName);
@@ -15,12 +16,12 @@ export function Crop() {
     const extractTopFour = () => {
       const cropList = document.getElementById('crop-list');
       const crops = cropList ? cropList.getElementsByTagName('li') : [];
-  
+
       const extractedCrops: string[] = [];
       for (let i = 0; i < 4 && i < crops.length; i++) {
         extractedCrops.push(crops[i].innerText);
       }
-      setTopFour(extractedCrops.map((item) => item.split(':')[0]));
+      setTopFour(extractedCrops.map((item) => item.split(':')[0].trim()));
     };
 
     extractTopFour();
@@ -29,26 +30,40 @@ export function Crop() {
   useEffect(() => {
     if (!stateName) return; // If stateName is null, exit
 
-    fetch("https://api-dev.on-demand.io/chat/v1/sessions", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        apikey: "zVzRjg2Lg2S2QI0dwIWjjOGc1RrofWjt",
-      },
-      body: JSON.stringify({ pluginIds: [], externalUserId: "1" }),
-    })
-      .then((response) => response.json())
-      .then((data) => {
-        const sessionId = data.chatSession.id;
+    let data = JSON.stringify({
+      "pluginIds": [
+        "plugin-1717443567",
+        "plugin-1717400660",
+        "plugin-1713962163"
+      ],
+      "externalUserId": "1"
+    });
 
+    let config = {
+      method: 'post',
+      maxBodyLength: Infinity,
+      url: 'https://api.on-demand.io/chat/v1/sessions',
+      headers: { 
+        'apikey': 'SyuuzaftNhzKZoZNFZz33xxMZblRer4p', 
+        'Content-Type': 'application/json'
+      },
+      data: data
+    };
+
+    let sessionId = '';
+    axios.request(config)
+      .then((response) => {
+        console.log(JSON.stringify(response.data));
+        sessionId = response.data.data.id;
+        console.log(sessionId);
         // Answer Query API
         fetch(
-          `https://api-dev.on-demand.io/chat/v1/sessions/${sessionId}/query`,
+          `https://api.on-demand.io/chat/v1/sessions/${sessionId}/query`,
           {
             method: "POST",
             headers: {
               "Content-Type": "application/json",
-              apikey: "goDTkO8tLo4XGDtu4yUWkFOT2mPovp9m",
+              apikey: "SyuuzaftNhzKZoZNFZz33xxMZblRer4p",
             },
             body: JSON.stringify({
               endpointId: "predefined-openai-gpt4o",
@@ -59,9 +74,11 @@ export function Crop() {
           }
         )
           .then((response) => response.json())
-          .then(async (data) => {
-            const res = data?.chatMessage?.answer;
+          .then(async (chatres) => {
+            console.log(chatres);
+            const res = chatres.data.answer;
             const html = await markdownToHtml(res);
+            console.log(res);
             setContent(html);
           })
           .catch((error) => {
@@ -73,7 +90,7 @@ export function Crop() {
       });
   }, [stateName]);
 
-  const imageUrl = (query: string) => `https://source.unsplash.com/random?${query}`;
+  const imageUrl = (query: string) => `https://source.unsplash.com/featured/?${query}`;
 
   return (
     <div className="w-full h-full ">

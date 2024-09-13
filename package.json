@@ -9,6 +9,8 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@types/request": "^2.48.12",
+    "axios": "^1.7.7",
     "dotenv": "^16.4.5",
     "leaflet": "^1.9.4",
     "markdown-to-jsx": "^7.4.7",
@@ -22,7 +24,8 @@
     "recoil": "^0.7.7",
     "remark": "^15.0.1",
     "remark-html": "^16.0.1",
-    "remark-parse": "^11.0.0"
+    "remark-parse": "^11.0.0",
+    "request": "^2.88.2"
   },
   "devDependencies": {
     "@types/leaflet": "^1.9.12",

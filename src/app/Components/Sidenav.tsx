@@ -41,7 +41,7 @@ const Sidenav: React.FC<SidenavProps> = ({ chatOpened, setChatOpened }) => {
       setDebounce(true);
       getChatResponse(search).then(async (res: any) => { 
         console.log(res , '$$');
-        const html = await convertMarkdown(res?.chatMessage?.answer);
+        const html = await convertMarkdown(res?.data.answer);
         setData((prev: any) => {
             const updatedArray = [...prev];
             updatedArray[updatedArray.length-1].answer = html;
